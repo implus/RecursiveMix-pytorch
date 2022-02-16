@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.so
+Makefile*
+logs/
+gitpush.sh
+start.sh
+checkpoints/
+*.pth
+*.pth.tar
