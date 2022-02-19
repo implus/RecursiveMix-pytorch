@@ -359,7 +359,7 @@ def recursive_mix(x, old_x, y, old_y, alpha, interpolate_mode):
         W = size[2]
         H = size[3]
 
-        cut_rat = np.sqrt(random.uniform(0, alpha))
+        cut_rat = np.sqrt(random.uniform(0.0, alpha))
         cut_w = np.int(W * cut_rat)
         cut_h = np.int(H * cut_rat)
 
