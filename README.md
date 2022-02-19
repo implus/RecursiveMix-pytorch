@@ -1,6 +1,6 @@
 # Code for 'RecursiveMix: Mixed Training with History'
 
-<p align="center"> <img src="figs/RM.png" width="100%"></p>
+<p align="center"> <img src="figs/RM.svg" width="100%"></p>
 RecursiveMix (RM), which uses the historical input-prediction-label triplet to enhance the generalization of Deep Vision Models
 
 ## Requirements
