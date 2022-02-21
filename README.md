@@ -6,9 +6,12 @@ RecursiveMix (RM), which uses the historical input-prediction-label triplet to e
 ## Requirements
 
 Experiment Environment
-- python == 3.6
-- pytorch == 1.7.1+cu101
-- torchvision == 0.8.2
+- python 3.6
+- pytorch 1.7.1+cu101
+- torchvision 0.8.2
+- mmcv-full 1.4.1
+- mmdet 2.19.1
+- mmsegmentation 0.20.2
 
 ## Usage
 
@@ -34,6 +37,46 @@ CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 -
             --aug_alpha 0.5 \
             --aug_omega 0.1
 ```
+
+RM in ImageNet (79.20% Top-1 acc)
+```python
+CUDA_VISIBLE_DEVICES=0,1 python -m torch.distributed.launch --nproc_per_node=2 --master_port 29500 main.py \
+            --name 'your_experiment_log_path' \
+            --model_file 'pyramidnet' \
+            --model_name 'pyramidnet_200_240' \
+            --data 'cifar10' \
+            --data_dir '/path/to/CIFAR10' \
+            --epoch 300 \
+            --batch_size 64 \
+            --lr 0.25 \
+            --scheduler 'step' \
+            --schedule 150 225 \
+            --weight_decay 1e-4 \
+            --nesterov \
+            --num_workers 8 \
+            --save_model \
+            --aug 'recursive_mix' \
+            --aug_alpha 0.5 \
+            --aug_omega 0.1
+
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 python -m torch.distributed.launch --nproc_per_node=8 --master_port 29500 main.py \
+			--name 'your_experiment_log_path' \
+			--model_file 'resnet' \
+			--model_name 'resnet50' \
+			--data 'imagenet' \
+			--epoch 300 \
+			--batch_size 512 \
+			--lr 0.2 \
+			--warmup 5 \
+			--weight_decay 1e-4 \
+			--aug_plus \
+			--num_workers 32 \
+			--save_model \
+			--aug 'recursive_mix' \
+			--aug_alpha 0.5 \
+			--aug_omega 0.5
+```
+
 
 ### 2. Test the model
 ```python
