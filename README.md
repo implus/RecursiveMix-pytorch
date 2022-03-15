@@ -1,4 +1,4 @@
-# Code for 'RecursiveMix: Mixed Training with History'
+# Code for 'RecursiveMix: Mixed Learning with History'
 
 <p align="center"> <img src="figs/RM.svg" width="100%"></p>
  
