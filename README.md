@@ -2,7 +2,7 @@
 
 <p align="center"> <img src="figs/RM.svg" width="100%"></p>
  
-RecursiveMix (RM), which uses the historical input-prediction-label triplet to enhance the generalization of Deep Vision Models. [Paper](https://arxiv.org/pdf/2203.06844.pdf)
+RecursiveMix (RM), which uses the historical input-prediction-label triplet to enhance the generalization of Deep Vision Models. [Paper Link Here.](https://arxiv.org/pdf/2203.06844.pdf)
 
 ## Requirements
 
