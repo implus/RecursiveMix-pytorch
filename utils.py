@@ -88,7 +88,6 @@ def reduce_value(value, average=True):
 
 def create_logging(log_file=None, log_level=logging.INFO, file_mode='a'):
     """Initialize and get a logger.
-
     If the logger has not been initialized, this method will initialize the
     logger by adding one or two handlers, otherwise the initialized logger will
     be directly returned. During initialization, a StreamHandler will always be
@@ -328,8 +327,8 @@ def mixup(x, y, alpha=0.4):
 
 def cutmix(x, y, alpha=1.0):
     def rand_bbox(size, alpha):
-        W = size[2]
-        H = size[3]
+        H = size[2]
+        W = size[3]
 
         cut_rat = np.sqrt(1. - np.random.beta(alpha, alpha))
         cut_w = np.int(W * cut_rat)
@@ -349,15 +348,15 @@ def cutmix(x, y, alpha=1.0):
     bbx1, bby1, bbx2, bby2 = rand_bbox(x.size(), alpha)
     lam = 1 - ((bbx2 - bbx1) * (bby2 - bby1) / (x.size()[-1] * x.size()[-2]))
 
-    x[:, :, bbx1:bbx2, bby1:bby2] = x[index, :, bbx1:bbx2, bby1:bby2]
+    x[:, :, bby1:bby2, bbx1:bbx2] = x[index, :, bby1:bby2, bbx1:bbx2]
     y = lam * y + (1 - lam) * y[index]
     return x, y
 
 
 def recursive_mix(x, old_x, y, old_y, alpha, interpolate_mode):
     def rand_bbox(size, alpha):
-        W = size[2]
-        H = size[3]
+        H = size[2]
+        W = size[3]
 
         cut_rat = np.sqrt(random.uniform(0.0, alpha))
         cut_w = np.int(W * cut_rat)
@@ -371,14 +370,15 @@ def recursive_mix(x, old_x, y, old_y, alpha, interpolate_mode):
         bby1 = np.clip(cy - cut_h // 2, 0, H)
         bbx2 = np.clip(cx + cut_w // 2, 0, W)
         bby2 = np.clip(cy + cut_h // 2, 0, H)
-        return bbx1, bby1, bbx2, bby2, (bbx2 - bbx1, bby2 - bby1)
+        return bbx1, bby1, bbx2, bby2
 
-    bbx1, bby1, bbx2, bby2, size = rand_bbox(x.size(), alpha)
+    bbx1, bby1, bbx2, bby2 = rand_bbox(x.size(), alpha)
 
+    size = (bby2 - bby1, bbx2 - bbx1)
     bs = x.size(0)
     if size != (0, 0):
         align_corners = None if interpolate_mode == 'nearest' else True
-        x[:, :, bbx1:bbx2, bby1:bby2] = F.interpolate(old_x[:bs],
+        x[:, :, bby1:bby2, bbx1:bbx2] = F.interpolate(old_x[:bs],
                                                       size=size,
                                                       mode=interpolate_mode,
                                                       align_corners=align_corners)
